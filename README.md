@@ -8,7 +8,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-  "yourusername/evernight.nvim",
+  "sanshibu/evernight.nvim",
   lazy = false,
   priority = 1000,
   config = function()
