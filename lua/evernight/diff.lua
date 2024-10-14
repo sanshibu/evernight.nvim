@@ -1,0 +1,30 @@
+local M = {}
+
+function M.setup(highlight, palette)
+	highlight("DiffviewFilePanelTitle", { fg = palette.blue, bold = true })
+	highlight("DiffviewFilePanelCounter", { fg = palette.purple, bold = true })
+	highlight("DiffviewFilePanelFileName", { fg = palette.fg })
+	highlight("DiffviewNormal", { fg = palette.fg, bg = palette.bg })
+	highlight("DiffviewCursorLine", { bg = palette.dark_gray })
+	highlight("DiffviewVertSplit", { fg = palette.gray, bg = palette.bg })
+	highlight("DiffviewSignColumn", { fg = palette.fg, bg = palette.bg })
+	highlight("DiffviewStatusLine", { fg = palette.fg, bg = palette.dark_gray })
+	highlight("DiffviewStatusLineNC", { fg = palette.gray, bg = palette.darker_gray })
+	highlight("DiffviewEndOfBuffer", { fg = palette.gray })
+	highlight("DiffviewFilePanelRootPath", { fg = palette.cyan, bold = true })
+	highlight("DiffviewFilePanelPath", { fg = palette.cyan })
+	highlight("DiffviewFilePanelInsertions", { fg = palette.green })
+	highlight("DiffviewFilePanelDeletions", { fg = palette.red })
+	highlight("DiffviewStatusAdded", { fg = palette.green })
+	highlight("DiffviewStatusUntracked", { fg = palette.blue })
+	highlight("DiffviewStatusModified", { fg = palette.yellow })
+	highlight("DiffviewStatusRenamed", { fg = palette.blue })
+	highlight("DiffviewStatusCopied", { fg = palette.cyan })
+	highlight("DiffviewStatusTypeChange", { fg = palette.purple })
+	highlight("DiffviewStatusUnmerged", { fg = palette.orange })
+	highlight("DiffviewStatusUnknown", { fg = palette.red })
+	highlight("DiffviewStatusDeleted", { fg = palette.red })
+	highlight("DiffviewStatusBroken", { fg = palette.red })
+end
+
+return M
