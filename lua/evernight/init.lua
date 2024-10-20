@@ -1,20 +1,20 @@
 local M = {}
 
 M.palette = {
-	bg = "#2b3339",
-	fg = "#d3c6aa",
-	red = "#e67e80",
-	green = "#a7c080",
-	yellow = "#dbbc7f",
-	blue = "#7fbbb3",
-	purple = "#d699b6",
-	cyan = "#83c092",
-	orange = "#e69875",
-	gray = "#7a8478",
-	light_gray = "#859289",
-	dark_gray = "#3a454a",
-	darker_gray = "#323c41",
-	black = "#272e33",
+	bg = "#1a1b26",
+	fg = "#c0caf5",
+	red = "#f7768e",
+	green = "#9ece6a",
+	yellow = "#e0af68",
+	blue = "#7aa2f7",
+	purple = "#bb9af7",
+	cyan = "#7dcfff",
+	orange = "#ff9e64",
+	gray = "#565f89",
+	light_gray = "#a9b1d6",
+	dark_gray = "#24283b",
+	darker_gray = "#1f2335",
+	black = "#16161e",
 }
 
 local function highlight(group, opts)
