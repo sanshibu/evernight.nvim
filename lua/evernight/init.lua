@@ -68,6 +68,19 @@ local function highlight(group, opts)
 	vim.api.nvim_set_hl(0, group, opts)
 end
 
+-- Color shade Function
+local function shade(hex, amount)
+	hex = hex:gsub("#", "")
+	local r = tonumber(hex:sub(1, 2), 16)
+	local g = tonumber(hex:sub(3, 4), 16)
+	local b = tonumber(hex:sub(5, 6), 16)
+	r = math.floor(math.min(math.max(r * amount, 0), 255))
+	g = math.floor(math.min(math.max(r * amount, 0), 255))
+	b = math.floor(math.min(math.max(r * amount, 0), 255))
+
+	return string.format("#%02x%02x%02x", r, g, b)
+end
+
 local function load_syntax()
 	-- Syntax highlights
 	local syntax = {
@@ -108,6 +121,12 @@ local function load_syntax()
 		Error = { fg = M.palette[M.config.style].red, bold = true },
 		Todo = { fg = M.palette[M.config.style].purple, bold = true },
 	}
+
+	-- File-type specific highlights
+	syntax.pythonFunction = { fg = M.palette[M.config.style].blue, italic = M.config.italic_functions }
+	syntax.pythonClass = { fg = M.palette[M.config.style].yellow, bold = true }
+	syntax.rustModPath = { fg = M.palette[M.config.style].blue }
+	syntax.rustAttribute = { fg = M.palette[M.config.style].cyan }
 
 	return syntax
 end
@@ -167,6 +186,13 @@ local function load_editor()
 		WildMenu = { fg = M.palette[M.config.style].bg, bg = M.palette[M.config.style].blue },
 	}
 
+	-- Transparency support
+	if M.config.transparent then
+		editor.Normal.bg = "None"
+		editor.NormalFloat.bg = "NONE"
+		editor.SignColumn.bg = "NONE"
+	end
+
 	return editor
 end
 
@@ -204,6 +230,22 @@ function load_plugins()
 		require("evernight.navic").setup(highlight, M.palette),
 		require("evernight.ts-rainbow").setup(highlight, M.palette),
 		require("evernight.noice").setup(highlight, M.palette),
+
+		-- Telescope
+		TelescopeBorder = { fg = M.palette[M.config.style].gray },
+		TelescopePromptBorder = { fg = M.palette[M.config.style].blue },
+		TelescopeResultsBorder = { fg = M.palette[M.config.style].gray },
+		TelescopePreviewBorder = { fg = M.palette[M.config.style].gray },
+
+		-- NvimTree
+		NvimTreeFolderIcon = { fg = M.palette[M.config.style].blue },
+		NvimTreeFolderName = { fg = M.palette[M.config.style].blue },
+		NvimTreeOpenedFolderName = { fg = M.palette[M.config.style].blue, bold = true },
+
+		-- GitSigns
+		GitSignsAdd = { fg = M.palette[M.config.style].green },
+		GitSignsChange = { fg = M.palette[M.config.style].yellow },
+		GitSignsDelete = { fg = M.palette[M.config.style].red },
 	}
 
 	return plugins
@@ -228,10 +270,48 @@ function M.load()
 	for group, opts in pairs(highlights) do
 		highlight(group, opts)
 	end
+
+	-- Set terminal colors
+	vim.g.terminal_color_0 = M.palette[M.config.style].black
+	vim.g.terminal_color_1 = M.palette[M.config.style].red
+	vim.g.terminal_color_2 = M.palette[M.config.style].green
+	vim.g.terminal_color_3 = M.palette[M.config.style].yellow
+	vim.g.terminal_color_4 = M.palette[M.config.style].blue
+	vim.g.terminal_color_5 = M.palette[M.config.style].purple
+	vim.g.terminal_color_6 = M.palette[M.config.style].cyan
+	vim.g.terminal_color_7 = M.palette[M.config.style].fg
+	vim.g.terminal_color_8 = M.palette[M.config.style].gray
+	vim.g.terminal_color_9 = M.palette[M.config.style].bright_red
+	vim.g.terminal_color_10 = M.palette[M.config.style].bright_green
+	vim.g.terminal_color_11 = M.palette[M.config.style].bright_yellow
+	vim.g.terminal_color_12 = M.palette[M.config.style].bright_blue
+	vim.g.terminal_color_13 = M.palette[M.config.style].bright_purple
+	vim.g.terminal_color_14 = M.palette[M.config.style].bright_cyan
+	vim.g.terminal_color_15 = M.palette[M.config.style].bright_white
 end
 
-function M.setup()
+function M.setup(user_config)
 	M.config = vim.tbl_deep_extend("force", M.config, user_config or {})
+end
+
+-- Lualine theme
+M.lualine = function()
+	local c = M.palette[M.config.style]
+	return {
+		normal = {
+			a = { fg = c.bg, bg = c.blue, gui = "bold" },
+			b = { fg = c.fg, bg = c.dark_gray },
+			c = { fg = c.fg, bg = c.darker_gray },
+		},
+		insert = { a = { fg = c.bg, bg = c.green, gui = "bold" } },
+		visual = { a = { fg = c.bg, bg = c.purple, gui = "bold" } },
+		replace = { a = { fg = c.bg, bg = c.red, gui = "bold" } },
+		inactive = {
+			a = { fg = c.gray, bg = c.darker_gray, gui = "bold" },
+			b = { fg = c.gray, bg = c.darker_gray },
+			c = { fg = c.gray, bg = c.darker_gray },
+		},
+	}
 end
 
 return M
